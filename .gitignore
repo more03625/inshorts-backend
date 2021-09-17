@@ -1,0 +1,7 @@
+.nvm
+.env
+node_modules
+package-lock.json
+accessLog
+assets/*
+public/uploads/*
