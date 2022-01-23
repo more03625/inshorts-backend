@@ -27,7 +27,7 @@ var author = require('./routes/author');
 
 /* connect mongodb */
 //mongoose.connect('mongodb://localhost/astroapi', { useNewUrlParser: true });
-mongoose.connect(process.env.db, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.rlosg.mongodb.net/${process.env.DB_DATABASE}?retryWrites=true&w=majority`, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false });
 mongoose.debug = true
 mongoose.set('debug', true);
 app.use(bodyParser.json({ limit: "500mb" }));
@@ -94,8 +94,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use("/api",authRoutes);
-app.use("/api",userRoutes);
+app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 app.use('/news', news)
 app.use('/category', category)
 app.use('/author', author)

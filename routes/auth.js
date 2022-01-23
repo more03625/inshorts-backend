@@ -1,5 +1,5 @@
 const express = require('express');
-const { signup, signin ,signout, register, login} = require('../controllers/auth');
+const { signup, signin, signout, register, login } = require('../controllers/auth');
 const { check, body, checkSchema } = require('express-validator');
 const { userSignupValidator } = require('../validator');
 const router = express.Router();
@@ -13,7 +13,7 @@ router.post('/login', login);
 router.post('/register', [
     check('name', 'Name is required').notEmpty(),
     check('email', 'Email Id is required').notEmpty(),
-    check('user_password', 'Password is required').notEmpty(),    
+    check('user_password', 'Password is required').notEmpty(),
 ], register);
 
 module.exports = router;

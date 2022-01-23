@@ -39,11 +39,12 @@ const newsController = {
         //         });
         //     })
 
-        await Post.find({status: "publish"}).skip(skip).limit(limit)
-                .populate('main_category', { 'name': 1, 'slug': 1})
-                .populate('author_id', {'name':1}).sort({'createdAt':-1}).then((detail)=>{
-                Post.countDocuments({status: "publish"}).then((count)=>{
-                    let data ={ detail,count}
+        await Post.find({ status: "publish" }).skip(skip).limit(limit)
+            .populate('main_category', { 'name': 1, 'slug': 1 })
+            .populate('author_id', { 'name': 1 }).sort({ 'createdAt': -1 }).then((detail) => {
+                Post.countDocuments({ status: "publish" }).then((count) => {
+                    let data = { detail, count }
+
                     res.status(200).json({
                         title: "Data found successfully!",
                         error: false,
@@ -52,15 +53,15 @@ const newsController = {
                         data
                     })
                 })
-        })
+            })
     },
     async byId(req, res) {
         const idParam = req.params.id;
         await helper.hits(idParam)
         Post
             .findOne({ _id: idParam })
-            .populate('main_category', { 'name': 1, 'slug': 1})
-            .populate('author_id', {'name':1})
+            .populate('main_category', { 'name': 1, 'slug': 1 })
+            .populate('author_id', { 'name': 1 })
             .exec((err, post) => {
                 return res.status(200).json({
                     title: "Data found successfully!",
@@ -73,8 +74,8 @@ const newsController = {
         const slug = req.params.slug;
         Post
             .findOne({ slug: slug })
-            .populate('main_category', { 'name': 1, 'slug': 1})
-            .populate('author_id', {'name':1})
+            .populate('main_category', { 'name': 1, 'slug': 1 })
+            .populate('author_id', { 'name': 1 })
             .exec((err, post) => {
                 return res.status(200).json({
                     title: "Data found successfully!",
@@ -102,7 +103,7 @@ const newsController = {
                             error: true,
                             title: "User not found"
                         })
-                    } 
+                    }
                 })
                 .catch(err => {
                     return res.status(500).json({
@@ -224,9 +225,9 @@ const newsController = {
                     error: true
                 })
             });
-    },    
+    },
     async newsSearch(req, res) {
-        var regex =new RegExp(req.params.searchtext, 'i');
+        var regex = new RegExp(req.params.searchtext, 'i');
         let { page, size } = req.query;  //req.params;
 
         if (!page) {
@@ -240,20 +241,20 @@ const newsController = {
         const skip = (page - 1) * size
 
         // await Post.find({title: regex}).skip(skip).limit(limit)
-        await Post.find({ $or: [ { title: regex }, { description: regex }, {short_tags: regex} ] } ).skip(skip).limit(limit)
-            .populate('main_category', { 'name': 1, 'slug': 1})
-            .populate('author_id', {'name':1}).sort({'createdAt':-1}).then((detail)=>{
-            Post.countDocuments({ $or: [ { title: regex }, { description: regex }, {short_tags: regex} ] } ).then((count)=>{
-                let data ={ detail,count}
-                res.status(200).json({
-                    title: "Data found successfully!",
-                    error: false,
-                    page,
-                    size,
-                    data
+        await Post.find({ $or: [{ title: regex }, { description: regex }, { short_tags: regex }] }).skip(skip).limit(limit)
+            .populate('main_category', { 'name': 1, 'slug': 1 })
+            .populate('author_id', { 'name': 1 }).sort({ 'createdAt': -1 }).then((detail) => {
+                Post.countDocuments({ $or: [{ title: regex }, { description: regex }, { short_tags: regex }] }).then((count) => {
+                    let data = { detail, count }
+                    res.status(200).json({
+                        title: "Data found successfully!",
+                        error: false,
+                        page,
+                        size,
+                        data
+                    })
                 })
             })
-        })
 
     },
     async trendingNews(req, res) {
@@ -269,11 +270,11 @@ const newsController = {
         const limit = parseInt(size)
         const skip = (page - 1) * size
 
-        await Post.find({status: "publish"}).skip(skip).limit(limit)
-                .populate('main_category', { 'name': 1, 'slug': 1})
-                .populate('author_id', {'name':1}).sort({'createdAt':-1, 'hits': -1}).then((detail)=>{
-                Post.countDocuments({status: "publish"}).then((count)=>{
-                    let data ={ detail,count}
+        await Post.find({ status: "publish" }).skip(skip).limit(limit)
+            .populate('main_category', { 'name': 1, 'slug': 1 })
+            .populate('author_id', { 'name': 1 }).sort({ 'createdAt': -1, 'hits': -1 }).then((detail) => {
+                Post.countDocuments({ status: "publish" }).then((count) => {
+                    let data = { detail, count }
                     res.status(200).json({
                         title: "Data found successfully!",
                         error: false,
@@ -282,7 +283,7 @@ const newsController = {
                         data
                     })
                 })
-        })
+            })
     },
 };
 
