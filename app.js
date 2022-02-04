@@ -75,7 +75,7 @@ app.use(function (req, res, next) {
         "http://3.140.177.16",
         "http://3.140.177.16:5254",
         "http://192.168.0.104:3000",
-
+        "https://reactjs-newsdb.netlify.app"
     ];
     const origin = req.headers.origin;
     console.log('origin', origin);
@@ -84,7 +84,7 @@ app.use(function (req, res, next) {
     if (allowedOrigins.indexOf(origin) > -1) {
         res.setHeader("Access-Control-Allow-Origin", origin);
     } else {
-        res.setHeader("Access-Control-Allow-Origin", "http://3.140.177.16");
+        res.setHeader("Access-Control-Allow-Origin", "https://reactjs-newsdb.netlify.app");
         // res.setHeader("Access-Control-Allow-Origin", "*");
     }
 
