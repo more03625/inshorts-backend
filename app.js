@@ -14,7 +14,6 @@ const cronJob = require('cron').CronJob;
 require('dotenv').config();
 const fileupload = require("express-fileupload");
 const cors = require("cors");
-app.use(cors());
 require('./db/connection.js')
 /* helper */
 const helper = require('./lib/helper');
@@ -33,6 +32,7 @@ var author = require('./routes/author');
 mongoose.debug = true
 mongoose.set('debug', true);
 
+app.use(cors());
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ limit: "500mb", extended: true, parameterLimit: 50000 }))
@@ -68,35 +68,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
     res.send('Hello News Db!');
 });
-
-app.use(function (req, res, next) {
-    const allowedOrigins = [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:3002",
-        "http://localhost:5256",
-        "http://3.140.177.16",
-        "http://3.140.177.16:5254",
-        "http://192.168.0.104:3000",
-        "https://reactjs-newsdb.netlify.app"
-    ];
-    const origin = req.headers.origin;
-    console.log('origin', origin);
-    // res.setHeader("Access-Control-Allow-Origin", "*");
-
-    if (allowedOrigins.indexOf(origin) > -1) {
-        res.setHeader("Access-Control-Allow-Origin", origin);
-    } else {
-        res.setHeader("Access-Control-Allow-Origin", "https://reactjs-newsdb.netlify.app");
+/*
+    app.use(function (req, res, next) {
+        const allowedOrigins = [
+            "http://localhost:3000",
+            "http://localhost:3001",
+            "http://localhost:3002",
+            "http://localhost:5256",
+            "http://3.140.177.16",
+            "http://3.140.177.16:5254",
+            "http://192.168.0.104:3000",
+            "https://reactjs-newsdb.netlify.app"
+        ];
+        const origin = req.headers.origin;
+        console.log('origin', origin);
         // res.setHeader("Access-Control-Allow-Origin", "*");
-    }
 
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Headers", "Origin,Content-Type, token, x-id, Content-Length, X-Requested-With, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
-});
+        if (allowedOrigins.indexOf(origin) > -1) {
+            res.setHeader("Access-Control-Allow-Origin", origin);
+        } else {
+            res.setHeader("Access-Control-Allow-Origin", "https://reactjs-newsdb.netlify.app");
+            // res.setHeader("Access-Control-Allow-Origin", "*");
+        }
 
+        res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Headers", "Origin,Content-Type, token, x-id, Content-Length, X-Requested-With, Accept");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        next();
+    });
+*/
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use('/news', news)
