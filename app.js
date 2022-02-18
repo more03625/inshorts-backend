@@ -15,7 +15,7 @@ require('dotenv').config();
 const fileupload = require("express-fileupload");
 const cors = require("cors");
 app.use(cors());
-
+require('./db/connection.js')
 /* helper */
 const helper = require('./lib/helper');
 
@@ -27,9 +27,12 @@ var author = require('./routes/author');
 
 /* connect mongodb */
 //mongoose.connect('mongodb://localhost/astroapi', { useNewUrlParser: true });
-mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.rlosg.mongodb.net/${process.env.DB_DATABASE}?retryWrites=true&w=majority`, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false });
+
+// mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.rlosg.mongodb.net/${process.env.DB_DATABASE}?retryWrites=true&w=majority`, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false });
+
 mongoose.debug = true
 mongoose.set('debug', true);
+
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ limit: "500mb", extended: true, parameterLimit: 50000 }))
